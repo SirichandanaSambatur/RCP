@@ -1,0 +1,16 @@
+﻿  Executive.cpp
+  Utilities.cpp
+  Tokenizer.cpp
+  SemiExp.cpp
+  ScopeStack.cpp
+  Parser.cpp
+  ConfigureParser.cpp
+  ActionsAndRules.cpp
+  Logger.cpp
+  GrammarHelpers.cpp
+  FileSystem.cpp
+  FileMgr.cpp
+  AbstrSynTree.cpp
+  Generating Code...
+  Executive.vcxproj -> C:\Users\Siri\Desktop\OOD\CodePublisher-829955672\CodePublisher\CodePublisher-829955672\x64\Debug\CodePublisher.exe
+  Executive.vcxproj -> C:\Users\Siri\Desktop\OOD\CodePublisher-829955672\CodePublisher\CodePublisher-829955672\x64\Debug\CodePublisher.pdb (Full PDB)

@@ -1,0 +1,168 @@
+<!---------------------------------------------------------------------
+ File Name- NoSqlDb.cpp
+PublishedTue Apr  4 23:49:52 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - NoSqlDb.cpp</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li><li><a href='Display.cpp.html'>Display.cpp</a></li><li><a href='Publisher.cpp.html'>Publisher.cpp</a></li><li><a href='DBHelper.h.html'>DBHelper.h</a></li><li><a href='NoSqlDb.h.html'>NoSqlDb.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>/////////////////////////////////////////////////////////////////////
+// NoSqlDb.cpp - key/value pair in-memory database                 //
+// ver 1.0                                                         //
+// Apllication: support for NoSqlDb, Spring 2017                   //
+//Platform: Macbook Pro, Win 10, Visual Studio 2015                //
+// Source:      Jim Fawcett, CST 4-187, 443-3948                   //
+//              jfawcett@twcny.rr.com                              //
+//Author: Siri Chandana S, ssambatu@syr.edu                        //
+/////////////////////////////////////////////////////////////////////
+#define _CRT_SECURE_NO_WARNINGS
+#include "NoSqlDb.h"
+#include "DBHelper.h"
+#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+#include &lt;ctime&gt;
+
+#ifdef TEST_NOSQLDB
+
+using StrData = std::string;
+using intData = int;
+
+
+//------- test stub ---------
+int main()
+<button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	std::string time;
+	std::string msg;
+	//Accesing the system clock
+	std::chrono::time_point&lt;std::chrono::system_clock&gt; current_time;
+	current_time = std::chrono::system_clock::now();
+	std::time_t current = std::chrono::system_clock::to_time_t(current_time);
+	time = std::ctime(&current);
+	std::cout &lt;&lt; "\n  Demonstrating NoSql Helper Code";
+	std::cout &lt;&lt; "\n =================================\n";
+	std::cout &lt;&lt; "\n  Creating and saving NoSqlDb elements with string data";
+	std::cout &lt;&lt; "\n -------------------------------------------------------\n";
+	DBHelper&lt;StrData&gt; db;
+	msg = db.insertion("elem1", "test", "string type database first element.", time, "elem1's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.insertion("elem2", "test1", "string type database second element.", time, "elem2's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.insertion("elem3", "test1", "string type database third element.", time, "elem3's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.insertion("elem4", "sub", "inserted this element fourth", time, "elem4's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.insertion("elem5", "sub", "this element is a part of the sub category.", time, "elem5's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.insertion("elem6", "item", " string type database sixth element.", time, "elem6's StrData");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n Adding Relations to NoSqlDb&lt;string&gt;";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = db.addChild("elem1", "elem2");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = db.addChild("elem1", "elem3");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;string&gt;";
+	std::cout &lt;&lt; "\n ------------------------------------------\n";
+	db.display();
+
+	std::cout &lt;&lt; "\n Deleting the element3 with key - 'elem3' ";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = db.deletion("elem3");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;int&gt; after deletion";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	db.display();
+
+	std::cout &lt;&lt; "\n  Creating and saving NoSqlDb elements with int data";
+	std::cout &lt;&lt; "\n ----------------------------------------------------\n";
+
+	DBHelper&lt;intData&gt; idb;
+	msg = idb.insertion("elem1", "test1", "iinteger type database first element.", time, 1);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("elem2", "test1", "integer type database second element.", time, 2);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("item6", "sub", "integer type database third element.", time, 67);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("item3", "test", "integer type database third item.", time, 656);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("elem3", "test", "integer type database third element.", time, 39);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("elem4", "sub", "integer type database fourth element.", time, 9);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("elem5", "example", "integer type database fifth element of example.", time, 5);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.insertion("elem6", "example", "integer database has sixth element", time, 6);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n Adding Relations to NoSqlDb&lt;int&gt;";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = idb.addChild("elem1", "elem2");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.addChild("elem1", "elem5");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.addChild("elem1", "elem6");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.addChild("elem5", "elem2");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = idb.addChild("elem6", "elem2");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;int&gt;";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	idb.display();
+
+	std::cout &lt;&lt; "\n Modifying the element2 instance with key - 'elem2' ";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = idb.modifyInstance("elem2", "elem7", "test", " ", time, 5);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;int&gt; after modification";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	idb.display();
+
+	DBHelper&lt;double&gt; dbh;
+	std::cout &lt;&lt; "\n  Creating and saving NoSqlDb elements with double data";
+	std::cout &lt;&lt; "\n -------------------------------------------------------\n";
+
+
+	msg = dbh.insertion("e1", "xyz", " ", time, 3.45);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = dbh.insertion("e2", "xyz", " ", time, 5.45);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = dbh.insertion("e3", "xyz", " ", time, 3.4);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = dbh.insertion("e4", "xyz", " ", time, 8.45);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	msg = dbh.insertion("e5", "xyz", " ", time, 9.45);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;double&gt; after insertion";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	dbh.display();
+
+	std::cout &lt;&lt; "\n Modification of element1 instance with key= 'e1' ";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = dbh.modifyInstance("e1", "e6", "jkil", " ", time, 5.5555);
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;double&gt; after modification";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	dbh.display();
+
+	std::cout &lt;&lt; "\n Deletion of element1 with key= 'e1' ";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	msg = dbh.deletion("e1");
+	std::cout &lt;&lt; "\n" &lt;&lt; msg &lt;&lt; "\n";
+	std::cout &lt;&lt; "\n  Retrieving elements from NoSqlDb&lt;double&gt; after deletion";
+	std::cout &lt;&lt; "\n ---------------------------------------\n";
+	dbh.display();
+}</div>
+#endif
+
+
+</pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

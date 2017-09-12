@@ -1,0 +1,41 @@
+<!---------------------------------------------------------------------
+ File Name- Display.cpp
+PublishedTue Apr  4 23:49:52 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - Display.cpp</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Display.h.html'>Display.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>////////////////////////////////////////////////////////////////////////////////////////////
+// Display.cpp - Helper class that is use to show the analysis that is being performed    //
+//  ver 1.0                                                                               //
+//  Language:      Visual C++ 2015                                                        //
+//  Platform:      Macbook Pro, Windows 10                                                //
+//  Application:   Used to support analysis of the files                                  //
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                               //
+////////////////////////////////////////////////////////////////////////////////////////////
+#define _CRT_SECURE_NO_WARNINGS
+#include "Display.h"
+using namespace CodeAnalysis;
+#ifdef TEST_DISPLAY
+int main() <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	Display d;
+	std::cout &lt;&lt; "Testing type Anaylsis";
+	d.typeAnalysis();
+	std::cout&lt;&lt;"testing dependancy analysis"
+	d.depAnalysis();
+
+	std::cout &lt;&lt; "inserting the dependancy into the database";
+	d.depDatabase();
+	std::cout &lt;&lt; "testing to check strongly connected components";
+	d.strongComponents();
+
+	std::cout &lt;&lt; 'testing to output as a XML file";
+	if (XMLfile == "")
+		XMLfile = "defaultXML.xml";
+	d.XMLFormat(XMLfile);
+}</div>
+
+#endif // TEST_DISPLAY</pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

@@ -1,0 +1,82 @@
+<!---------------------------------------------------------------------
+ File Name- ConvertType.h
+PublishedTue Apr  4 23:49:49 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - ConvertType.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+/////////////////////////////////////////////////////////////////////////////////////////
+// ConvertType.h - To convert a file in the Html format                                //
+//  ver 1.0                                                                            //
+//  Language:      Visual C++ 2015                                                     //
+//  Platform:      Macbook Pro, Windows 10                                             //
+//  Application:   Used to convert a given list of files in .html files                //
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                            //
+/////////////////////////////////////////////////////////////////////////////////////////
+/*
+Package Operations:
+==================
+This package is used to convert the type of each given file as an html file.
+This conversion helps keep the content as it is in the new Html pages. It also performs 
+any syntacitically changes of content that needs to be made on the existing file. So, that 
+when the file is converted to .html, there is no loss of data. It helps in preserving 
+the contents of the existing files.
+
+
+Public Interface:
+=================
+
+
+Build Process:
+==============
+Required files
+
+
+Build commands
+devenv CodeAnalyzer.sln /rebuild debug
+
+Maintenance History:
+====================
+ver 1.0 : 02 Apr 2017
+- first release
+
+*/
+#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+#include&lt;sstream&gt;
+#include&lt;vector&gt;
+
+namespace CodePublisher <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	class Convert <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	private:
+
+	public:
+		std::string convertContent(std::string fname);
+	}59</div>
+
+	std::string Convert::convertContent(std::string fname) <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		std::string temp = "";
+		std::string content = "";
+		std::ifstream in(fname);
+		if (!in.good())
+			throw(std::exception(("can't open source file " + fname).c_str()));
+		std::ostringstream out;
+		out &lt;&lt; in.rdbuf();
+		temp = out.str();
+		for (int i = 0; i &lt; temp.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+			if (temp[i] == '&lt;') <button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+				content = content + "&lt;";
+			}</div>
+			else if (temp[i] == '&gt;') <button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+				content = content + "&gt;";
+			}</div>
+			else
+				content = content + temp[i];
+		}</div>
+		return content;
+	}</div>
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

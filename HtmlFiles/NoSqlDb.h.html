@@ -1,0 +1,244 @@
+<!---------------------------------------------------------------------
+ File Name- NoSqlDb.h
+PublishedTue Apr  4 23:49:51 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - NoSqlDb.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li><li><a href='DBHelper.h.html'>DBHelper.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+/////////////////////////////////////////////////////////////////////
+// NoSqlDb.h - key/value pair in-memory database                   //
+// ver 1.0                                                         //
+// Apllication: support for NoSqlDb, Spring 2017                   //
+// Platform: Macbook Pro, Win 10, Visual Studio 2015               //
+// Source:      Jim Fawcett, CST 4-187, 443-3948                   //
+//              jfawcett@twcny.rr.com                              //
+// Author: Siri Chandana S, ssambatu@syr.edu                       //
+/////////////////////////////////////////////////////////////////////
+/*
+* Package Operations:
+* -------------------
+* This package is used to manage a database. The database holds 
+* key/value pairs.
+*
+* It consists of the Element class that is used to implement the 
+* metadata of value.
+*
+* An unordered map data structure is used to store the key/value pairs.
+* This unordered map is a part of the NosqlDb Class.
+*
+* Required Files:
+* ---------------
+*  NoSqlDb.h, NoSqlDb.cpp
+*  DBhelper.h
+*  CppProperties.h
+*
+* Build Process:
+* --------------
+*   devenv CodeAnalyzer.sln /rebuild debug
+*
+* Maintenance History:
+* --------------------
+* Ver 1.0 : 7 Feb 2017
+* - first release
+*
+*/
+
+#include &lt;unordered_map&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt; 
+#include &lt;vector&gt;
+#include &lt;iomanip&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include "../CppProperties/CppProperties.h"
+
+/////////////////////////////////////////////////////////////////////
+// Element class represents a data record in our NoSql database
+// - in our NoSql database that is just the value in a key/value pair
+// - it needs to store child data, something for you to implement
+//
+template&lt;typename Data&gt;
+class Element
+<button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+public:
+	using Key = std::string;
+	using Name = std::string;
+	using Category = std::string;
+	using TimeDate = std::string;
+	using Description = std::string;
+	using Children = std::string;
+
+	Property&lt;Name&gt; name;            // metadata
+	Property&lt;Description&gt; description;//metadata
+	Property&lt;Category&gt; category;    // metadata
+	Property&lt;TimeDate&gt; timeDate;    // metadata
+	std::vector&lt;Children&gt; children;
+	Property&lt;Data&gt; data;            // data
+
+	std::string show();
+
+}59</div>
+
+template&lt;typename Data&gt;
+std::string Element&lt;Data&gt;::show()
+<button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	std::ostringstream out;
+	out.setf(std::ios::adjustfield, std::ios::left);
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "name" &lt;&lt; " : " &lt;&lt; name;
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "category" &lt;&lt; " : " &lt;&lt; category;
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "description" &lt;&lt; " : " &lt;&lt; description;
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "timeDate" &lt;&lt; " : " &lt;&lt; timeDate;
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "data" &lt;&lt; " : " &lt;&lt; data;
+	out &lt;&lt; "\n    " &lt;&lt; std::setw(8) &lt;&lt; "children" &lt;&lt; " : ";
+
+	for (auto i = children.begin(); i != children.end(); i++)
+		out &lt;&lt; *i &lt;&lt; "	";
+	out &lt;&lt; "\n";
+	return out.str();
+}</div>
+
+
+/////////////////////////////////////////////////////////////////////
+// NoSqlDb class is a key/value pair in-memory database
+// - stores and retrieves elements
+// - you will need to add query capability
+//   That should probably be another class that uses NoSqlDb
+//
+template&lt;typename Data&gt;
+class NoSqlDb
+<button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+public:
+	using Key = std::string;
+	using Keys = std::vector&lt;Key&gt;;
+
+	Keys keys();
+	bool save(Key key, Element&lt;Data&gt; elem);
+	bool remove(Key key);
+	bool modify(Key key, Element&lt;Data&gt; elem);
+	Element&lt;Data&gt; value(Key key);
+	bool addRelation(Key parent, Key child);
+	bool removeRelation(Key parent, Key child);
+	void setFeature(bool timeOn);
+	bool getFeature();
+	std::vector&lt;Key&gt; getChild(Key key);
+	size_t count();
+private:
+	using Item = std::pair&lt;Key, Element&lt;Data&gt;&gt;;
+	bool timer;
+	std::unordered_map&lt;Key, Element&lt;Data&gt;&gt; store;
+}59</div>
+
+//returns the keys present in the database
+template&lt;typename Data&gt;
+typename NoSqlDb&lt;Data&gt;::Keys NoSqlDb&lt;Data&gt;::keys()
+<button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+	Keys keys;
+	for (Item item : store)
+	<button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+		keys.push_back(item.first);
+	}</div>
+	return keys;
+}</div>
+
+//if the key and value given doesnt exist in the databse then insert them into the database
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::save(Key key, Element&lt;Data&gt; elem)
+<button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+	if (store.find(key) != store.end())
+		return false;
+	store[key] = elem;
+	return true;
+}</div>
+
+//return the children of a given key
+template&lt;typename Data&gt;
+std::vector&lt;std::string&gt; NoSqlDb&lt;Data&gt;::getChild(Key key) <button id="collapseInfo" onclick ="myFunction('collapsible7')">show</button><div id = "collapsible7">{
+	std::vector&lt;Key&gt; temp;
+	temp = value(key).children;
+	return temp;
+
+}</div>
+//remove the  key given from the databases and all its references to the database
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::remove(Key key)
+<button id="collapseInfo" onclick ="myFunction('collapsible8')">show</button><div id = "collapsible8">{
+	if (store.find(key) == store.end())
+		return false;
+	std::vector&lt;Key&gt; allKeys = keys();
+	for (auto j = allKeys.begin(); j != allKeys.end(); j++) <button id="collapseInfo" onclick ="myFunction('collapsible9')">show</button><div id = "collapsible9">{
+		removeRelation(*j, key);
+	}</div>
+	store.erase(key);
+	return true;
+}</div>
+
+//return the value when the key is given from the database
+template&lt;typename Data&gt;
+Element&lt;Data&gt; NoSqlDb&lt;Data&gt;::value(Key key)
+<button id="collapseInfo" onclick ="myFunction('collapsible10')">show</button><div id = "collapsible10">{
+	if (store.find(key) != store.end())
+		return store[key];
+	return Element&lt;Data&gt;();
+}</div>
+
+//creating a parent child relation between keys in the database
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::addRelation(Key parent, Key child)
+<button id="collapseInfo" onclick ="myFunction('collapsible11')">show</button><div id = "collapsible11">{
+	if (store.find(parent) == store.end() || store.find(child) == store.end())
+		return false;
+	Element&lt;Data&gt; parentElem;
+	parentElem = value(parent);
+	parentElem.children.push_back(child);
+	store[parent] = parentElem;
+	return true;
+}</div>
+
+//removing a parent child relation between keys in the database
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::removeRelation(Key parent, Key child)
+<button id="collapseInfo" onclick ="myFunction('collapsible12')">show</button><div id = "collapsible12">{
+	Element&lt;Data&gt; parentElem;
+	parentElem = value(parent);
+	std::vector&lt;Key&gt; copyChildren = parentElem.children;
+	copyChildren.erase(std::remove(copyChildren.begin(), copyChildren.end(), child), copyChildren.end());
+	parentElem.children = copyChildren;
+	store[parent] = parentElem;
+	return true;
+}</div>
+
+//set the timer on for persisting the database contents into the file
+template&lt;typename Data&gt;
+void NoSqlDb&lt;Data&gt;::setFeature(bool timeOn)
+<button id="collapseInfo" onclick ="myFunction('collapsible13')">show</button><div id = "collapsible13">{
+	this-&gt;timer= timeOn;
+}</div>
+
+//checking the value of the timer
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::getFeature()
+<button id="collapseInfo" onclick ="myFunction('collapsible14')">show</button><div id = "collapsible14">{
+	return timer;
+}</div>
+
+//total number of elements in the database
+template&lt;typename Data&gt;
+size_t NoSqlDb&lt;Data&gt;::count()
+<button id="collapseInfo" onclick ="myFunction('collapsible15')">show</button><div id = "collapsible15">{
+	return store.size();
+}</div>
+
+//updating the existing values in the database
+template&lt;typename Data&gt;
+bool NoSqlDb&lt;Data&gt;::modify(Key key, Element&lt;Data&gt; elem)
+<button id="collapseInfo" onclick ="myFunction('collapsible16')">show</button><div id = "collapsible16">{
+	if (store.find(key) == store.end())
+		return false;
+	store[key] = elem;
+	return true;
+}</div>
+</pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

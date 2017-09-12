@@ -1,0 +1,160 @@
+<!---------------------------------------------------------------------
+ File Name- HtmlDocument.h
+PublishedTue Apr  4 23:49:51 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - HtmlDocument.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+/////////////////////////////////////////////////////////////////////////////////////////
+// HtmlDocument.h - Used for creating HTML pages and all the required tags             //
+//  ver 1.0                                                                            //
+//  Language:      Visual C++ 2015                                                     //
+//  Platform:      Macbook Pro, Windows 10                                             //
+//  Application:   Used to convert existing files into html pages that are published   //                       
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                            //
+/////////////////////////////////////////////////////////////////////////////////////////
+/*
+Package Operations:
+==================
+This package is used to create HTML pages, that can be viewed on browser.
+It consists of all the methods that help in creating the required tags of HTML. It will
+also include the required CSS and JS for the HTML files.
+
+Public Interface:
+=================
+
+
+Build Process:
+==============
+Required files
+
+
+Build commands
+devenv CodeAnalyzer.sln /rebuild debug
+
+Maintenance History:
+====================
+ver 1.0 :  02 Apr 2017
+- first release
+
+*/
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+
+
+namespace CodePublisher <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// HtmlDocument class helps creating Html pages that follow the Html syntax and semantics
+	// - this class is used to create various Html tags (start and end)
+	// - it factilates in creating the html file structure
+	//
+
+	class HtmlDocument <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	public:
+		std::string createHtmlStartTag();
+		std::string createHeadSection(std::vector&lt;std::string&gt; cssList, std::vector&lt;std::string&gt; jsList);
+		std::string createBodyStartTag();
+		std::string createBodyEndTag();
+		std::string createAnchorTag(std::string className, std::string name, std::string link);
+		std::string createHtmlEndTag();
+		std::string createPreTag(std::string content);
+		std::string createScriptTag(std::string name);
+		std::string createDivision(std::string id, std::string className, std::string bodyDiv);
+		std::string createLiTag(std::string t);
+		std::string createOLTag(std::string t, std::string className, std::string n);
+		std::string createButton(std::string var);
+		std::string createDivIdStart(std::string v);
+		std::string createDivIdEnd();
+	}59</div>
+	std::string HtmlDocument::createDivIdStart(std::string v) <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		return "&lt;div id = \"collapsible" + v + "\"&gt;";
+	}</div>
+	std::string HtmlDocument::createDivIdEnd() <button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+		return "&lt;/div&gt;";
+	}</div>
+	//creating Html button
+	std::string HtmlDocument::createButton(std::string var) <button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+		std::string content="&lt;br&gt;&lt;button id=\"collapseInfo\" onclick =\"myFunction('collapsible"+var+"')\"&gt;show&lt;/button&gt;";
+		return content;
+	}</div>
+	//creating html start tag
+	std::string HtmlDocument::createHtmlStartTag() <button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+		return "&lt;!DOCTYPE html&gt;&lt;br&gt;&lt;html&gt;";
+	}</div>
+
+	//html end tag
+	std::string HtmlDocument::createHtmlEndTag() <button id="collapseInfo" onclick ="myFunction('collapsible7')">show</button><div id = "collapsible7">{
+		return "&lt;/html&gt;";
+	}</div>
+
+	//head section and include all necessary links to external files
+	std::string HtmlDocument::createHeadSection(std::vector&lt;std::string&gt; cssList, std::vector&lt;std::string&gt; jsList) <button id="collapseInfo" onclick ="myFunction('collapsible8')">show</button><div id = "collapsible8">{
+		std::string headContent = "&lt;head&gt;";
+		for (int i = 0; i &lt; cssList.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible9')">show</button><div id = "collapsible9">{
+			headContent += "&lt;link rel='stylesheet' type='text/css' href='" + cssList[i] + "'&gt;\n";
+		}</div>
+		for (int j = 0; j &lt; jsList.size(); j++) <button id="collapseInfo" onclick ="myFunction('collapsible10')">show</button><div id = "collapsible10">{
+			headContent += createScriptTag(jsList[j]);
+		}</div>
+		headContent += "&lt;/head&gt;";
+		return headContent;
+	}</div>
+
+	//body tag and necessary feature if any
+	std::string HtmlDocument::createBodyStartTag() <button id="collapseInfo" onclick ="myFunction('collapsible11')">show</button><div id = "collapsible11">{
+		return "&lt;body&gt;";
+	}</div>
+
+	//end the body section of html file
+	std::string HtmlDocument::createBodyEndTag() <button id="collapseInfo" onclick ="myFunction('collapsible12')">show</button><div id = "collapsible12">{
+		return "&lt;/body&gt;";
+	}</div>
+
+	//create the necessary links
+	std::string HtmlDocument::createAnchorTag(std::string className, std::string name, std::string link) <button id="collapseInfo" onclick ="myFunction('collapsible13')">show</button><div id = "collapsible13">{
+		std::string tag = "";
+		tag = "&lt;a ";
+		if (className != "")
+			tag += "class='" + className + "'";
+		tag += "href='" + link + "'&gt;" + name;
+		tag = tag + "&lt;/a&gt;";
+		return tag;
+	}</div>
+
+	//creating pre tag of html files
+	std::string HtmlDocument::createPreTag(std::string content) <button id="collapseInfo" onclick ="myFunction('collapsible14')">show</button><div id = "collapsible14">{
+		std::string tag = "&lt;pre&gt;" + content + "&lt;/pre&gt;";
+		return tag;
+	}</div>
+
+	//creating script tag to add any js functions or external js files
+	std::string HtmlDocument::createScriptTag(std::string name) <button id="collapseInfo" onclick ="myFunction('collapsible15')">show</button><div id = "collapsible15">{
+		std::string tag = "&lt;script src='" + name + "'&gt;&lt;/script&gt;";
+		return tag;
+	}</div>
+	std::string HtmlDocument::createDivision(std::string id, std::string className, std::string bodyDiv) <button id="collapseInfo" onclick ="myFunction('collapsible16')">show</button><div id = "collapsible16">{
+		std::string tag = "&lt;div ";
+		if (id != "") <button id="collapseInfo" onclick ="myFunction('collapsible17')">show</button><div id = "collapsible17">{
+			tag = tag + "id='" + id + "'";
+		}</div>
+		if (className != "") <button id="collapseInfo" onclick ="myFunction('collapsible18')">show</button><div id = "collapsible18">{
+			tag = tag + "class='" + className + "'";
+		}</div>
+		tag = tag + "&gt;" + bodyDiv + "&lt;/div&gt;";
+		return tag;
+	}</div>
+	std::string HtmlDocument::createLiTag(std::string t) <button id="collapseInfo" onclick ="myFunction('collapsible19')">show</button><div id = "collapsible19">{
+		std::string ol = "&lt;li&gt;" + t + "&lt;/li&gt;";
+		return ol;
+	}</div>
+	std::string HtmlDocument::createOLTag(std::string t, std::string className, std::string n) <button id="collapseInfo" onclick ="myFunction('collapsible20')">show</button><div id = "collapsible20">{
+		std::string ol = "&lt;ol class='" + className;
+		ol += "' type='" + t + "'&gt;" + n + "&lt;/ol&gt;";
+		return ol;
+	}</div>
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

@@ -1,0 +1,209 @@
+<!---------------------------------------------------------------------
+ File Name- PublishPage.h
+PublishedTue Apr  4 23:49:51 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - PublishPage.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li><li><a href='HtmlDocument.h.html'>HtmlDocument.h</a></li><li><a href='NoSqlDb.h.html'>NoSqlDb.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+/////////////////////////////////////////////////////////////////////////////////////////
+// PublishPage.h - Publish the given list of files as HTML files                       //
+//  ver 1.0                                                                            //
+//  Language:      Visual C++ 2015                                                     //
+//  Platform:      Macbook Pro, Windows 10                                             //
+//  Application:   Used to publish various types of files in the package               //
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                            //
+/////////////////////////////////////////////////////////////////////////////////////////
+/*
+Package Operations:
+==================
+This package is used to publish every single file that ia present in the package. It
+converts all the files to HTML files. It uses the HtmlDocument to convert the given 
+list of files into Html pages and also links all the files, so that they can be published 
+on the browser.
+
+
+Public Interface:
+=================
+
+
+Build Process:
+==============
+Required files
+
+
+Build commands
+devenv CodeAnalyzer.sln /rebuild debug
+
+Maintenance History:
+====================
+ver 1.0 : 02 Apr 2017
+- first release
+
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_OBSOLETE_NO_WARNINGS
+#include&lt;iostream&gt;
+#include&lt;sstream&gt;
+#include&lt;fstream&gt;
+#include "../HtmlDocument/HtmlDocument.h"
+#include&lt;direct.h&gt;
+#include &lt;windows.h&gt;
+namespace CodePublisher <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	class PublishHtmlPage <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	private:
+		std::string htmlFilePath="HtmlFiles/mainPage.html";
+		HtmlDocument hd;
+		std::vector&lt;std::string&gt; csslist;
+		std::vector&lt;std::string&gt; jslist;
+		std::string js;
+		std::string createHeader(std::string currentFile);
+		std::string createMainContent(std::string content, std::vector&lt;std::string&gt; listOfFiles);
+		std::string createFooter();
+		std::string addDependancies(std::vector&lt;std::string&gt; listOfFiles);
+		std::string createSections(std::string v);
+		std::string createPrologue(std::string file);
+
+	public:
+		void createHtmlPage(std::string fileName, std::string content, std::vector&lt;std::string&gt; listOfFiles);
+		void addCSS();
+		void addJS();
+		void showCSSFiles();
+		void createMainPage(std::vector&lt;std::string&gt; files);
+
+	}59</div>
+
+	void PublishHtmlPage::createMainPage(std::vector&lt;std::string&gt; files) <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		std::ofstream file(htmlFilePath);
+		std::string atag;
+		std::string litag="";
+		addCSS();
+		std::string hContent= hd.createHtmlStartTag() + hd.createHeadSection(csslist,jslist)+ hd.createBodyStartTag() + createHeader("Main Page");
+		std::string size = "The package consists of " + std::to_string(files.size()) + " files. Depandancy Analysis is performed on these files and the files have been published as an html file.&lt;br&gt;";
+		size = size + "The following is the list of files that are present in the package-&lt;br&gt;";
+		for (int i = 0; i &lt; files.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+			std::size_t found =files[i].find_last_of("/\\");
+			std::string currentPath = files[i].substr(0, found);
+			std::string currentFile = files[i].substr(found + 1);
+			std::string temp = currentFile + ".html";
+			atag = hd.createAnchorTag("alink", currentFile, temp);
+			litag += hd.createLiTag(atag);
+		}</div>
+		std::string oltag = hd.createOLTag("A", "",litag);
+		size += oltag;
+		hContent += hd.createDivision("", "mainContent", size);
+		std::string fContent = hd.createAnchorTag("acolor", "Return to main page", "mainPage.html");
+		fContent += hd.createDivision("", "alignRight", "&copy;&nbsp;Copyright 2017. All rights reserved");
+		std::string s = hd.createDivision("", "footer alignBottom", fContent);
+		hContent += s+hd.createBodyEndTag();
+		file &lt;&lt; hContent;
+		file.close();
+	}</div>
+
+	std::string PublishHtmlPage::createPrologue(std::string file) <button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+		std::string content="&lt;!---------------------------------------------------------------------\n File Name- "+file+"\nPublished- April 04, 2017, \nAuthor- Siri Chandana Sambatur, ssambatu@syr.edu\n -----------------------------------&gt;\n ";
+		return content;
+	}</div>
+	void PublishHtmlPage::showCSSFiles() <button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+		std::cout &lt;&lt; "Contents of HtmlFiles/HTMLDesign.css------------------\n";
+		std::ifstream in("HtmlFiles/HTMLDesign.css");
+		std::cout &lt;&lt; in.rdbuf();
+		std::cout &lt;&lt; "\nContents of HtmlFiles/HideInformation.css------------------\n";
+		std::ifstream in1("HtmlFiles/HideInformation.css");
+		std::cout &lt;&lt; in1.rdbuf();
+	}</div>
+
+	void PublishHtmlPage::addCSS() <button id="collapseInfo" onclick ="myFunction('collapsible7')">show</button><div id = "collapsible7">{
+		std::cout &lt;&lt; "--------------------- Adding external Stylesheets- 'HtmlFiles/HideInformation.css' and 'HtmlFiles/HTMLDesign.css' -----------------------\n";
+		csslist.push_back("HideInformation.css");
+		csslist.push_back("HTMLDesign.css");
+	}</div>
+
+	void PublishHtmlPage::addJS() <button id="collapseInfo" onclick ="myFunction('collapsible8')">show</button><div id = "collapsible8">{
+		std::cout &lt;&lt; "----------------- Adding external Java Script - 'HtmlFiles/HideInformation.js' ----------------\n";
+		jslist.push_back("jquery-3.2.0.js");
+		jslist.push_back("HideInformation.js");
+	}</div>
+	//Header of the Html page according to design
+	std::string PublishHtmlPage::createHeader(std::string currentFile) <button id="collapseInfo" onclick ="myFunction('collapsible9')">show</button><div id = "collapsible9">{
+		std::string hContent = "Code Publisher - " + currentFile;
+		std::string s = hd.createDivision("", "header", hContent);
+		return s;
+	}</div>
+	std::string PublishHtmlPage::createSections(std::string text) <button id="collapseInfo" onclick ="myFunction('collapsible10')">show</button><div id = "collapsible10">{
+		std::string htmlContent = "";
+		int count = 1;
+		for (int i = 0; i &lt; text.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible11')">show</button><div id = "collapsible11">{
+			if (text[i] == '<button id="collapseInfo" onclick ="myFunction('collapsible12')">show</button><div id = "collapsible12">{') <button id="collapseInfo" onclick ="myFunction('collapsible13')">show</button><div id = "collapsible13">{
+				htmlContent+=hd.createButton(std::to_string(count));
+				htmlContent += hd.createDivIdStart(std::to_string(count)) + "<button id="collapseInfo" onclick ="myFunction('collapsible14')">show</button><div id = "collapsible14">{";
+				count = count+1;
+			}</div>
+			else if (text[i] == '}</div>') <button id="collapseInfo" onclick ="myFunction('collapsible15')">show</button><div id = "collapsible15">{
+				if (text[i + 1] == ';') <button id="collapseInfo" onclick ="myFunction('collapsible16')">show</button><div id = "collapsible16">{
+					htmlContent += "}59</div>" + hd.createDivIdEnd();
+					i = i + 1;
+				}</div>
+				htmlContent +="}</div>"+ hd.createDivIdEnd();
+			}</div>
+			else
+			 htmlContent += text[i];
+		}</div>
+		return hd.createPreTag(htmlContent);
+	}</div>
+	//main content of the Html page according to design
+	std::string PublishHtmlPage::createMainContent(std::string content, std::vector&lt;std::string&gt; listOfFiles) <button id="collapseInfo" onclick ="myFunction('collapsible17')">show</button><div id = "collapsible17">{
+		std::string hContent = addDependancies(listOfFiles) + hd.createDivision("code","","&lt;br&gt;Code present in the file is given below-&lt;br&gt;")+createSections(content);
+		return hd.createDivision("","mainContent",hContent);
+	}</div>
+
+
+
+	//footer of the Html page according to design
+	std::string PublishHtmlPage::createFooter() <button id="collapseInfo" onclick ="myFunction('collapsible18')">show</button><div id = "collapsible18">{
+		std::string fContent = hd.createAnchorTag("acolor", "Return to main page", "mainPage.html");
+		fContent += hd.createDivision("", "alignRight", "&copy;&nbsp;Copyright 2017. All rights reserved");
+		std::string s = hd.createDivision("", "footer", fContent);
+		return s;
+	}</div>
+
+	void PublishHtmlPage::createHtmlPage(std::string fileName, std::string content, std::vector&lt;std::string&gt; listOfFiles) <button id="collapseInfo" onclick ="myFunction('collapsible19')">show</button><div id = "collapsible19">{
+		std::string Name= "HtmlFiles/"+fileName + ".html";
+		std::string HtmlContent = "";
+		try <button id="collapseInfo" onclick ="myFunction('collapsible20')">show</button><div id = "collapsible20">{
+			std::cout &lt;&lt; "\n----------------------------------------------------------------------------------------------------\n";
+			std::cout &lt;&lt; "Requirement 3------------------- Html file created- " &lt;&lt; fileName &lt;&lt; "-------------------\n";
+			std::cout &lt;&lt; "----------------------------------------------------------------------------------------------------\n";
+			HtmlContent = createPrologue(fileName)+ hd.createHtmlStartTag()+hd.createHeadSection(csslist,jslist);
+			HtmlContent = HtmlContent + hd.createBodyStartTag() + createHeader(fileName) +createMainContent(content,listOfFiles)+ createFooter() + hd.createBodyEndTag();
+			std::ofstream file(Name);
+			file &lt;&lt; HtmlContent;
+			file.close();
+		}</div>
+		catch (std::exception& ex) <button id="collapseInfo" onclick ="myFunction('collapsible21')">show</button><div id = "collapsible21">{
+			std::cout &lt;&lt; "File Handling Error" &lt;&lt; ex.what();
+		}</div>
+
+	}</div>
+
+	std::string PublishHtmlPage::addDependancies(std::vector&lt;std::string&gt; listOfFiles) <button id="collapseInfo" onclick ="myFunction('collapsible22')">show</button><div id = "collapsible22">{
+		std::cout &lt;&lt; "Requirement 7---------------------- Adding the Dependancies----------------- \n";
+			std::string tags = hd.createDivision("","dependancies","List Of Dependancies-&lt;br&gt;");
+			std::string liTag;
+			for (int i = 0; i &lt; listOfFiles.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible23')">show</button><div id = "collapsible23">{
+				std::string temp=listOfFiles[i] + ".html";
+				std::cout &lt;&lt; temp &lt;&lt; "\n";
+				std::string atag= hd.createAnchorTag("", listOfFiles[i], temp);
+				liTag += hd.createLiTag(atag);
+			}</div>
+
+			tags += hd.createOLTag("1","alink",liTag);
+			std::cout &lt;&lt; "---------------------------------------------------------------------------------------------\n";
+			std::cout &lt;&lt; "\n\n";
+			return tags;
+		
+	}</div>
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

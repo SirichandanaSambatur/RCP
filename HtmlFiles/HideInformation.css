@@ -1,0 +1,23 @@
+#collapseInfo {
+    background-color:  rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    width: 4%;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
+    transition: 0.4s;
+font-family: Verdana;
+}
+
+#collapseInfo.active, #collapseInfo:hover {
+    background-color:  rgba(0, 0, 0, 0.4);
+    color:white;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}

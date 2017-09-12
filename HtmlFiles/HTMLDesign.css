@@ -1,0 +1,53 @@
+body{
+     margin-top:20px;
+     margin-left:0px;
+     margin-right:0px;
+     margin-bottom:0px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.header {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-stretch: extra-expanded;
+    font-variant: small-caps;
+    font-family: Verdana;
+    font-size: 45px;
+    height: 80px;
+    width: 98%;
+    padding:10px;
+}
+.acolor{
+   color:white;
+}
+.footer{
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;	
+   height:60px;
+	
+   width: 98%;
+   padding:10px;
+   font-stretch: extra-expanded;
+   font-family: Verdana;
+   margin-bottom:20px;
+}
+.alignRight{
+  float: right;
+}
+.dependancies{
+   font-family: Verdana;
+   font-size:28px;
+}
+.mainContent{
+    font-size: 15px;
+    margin: 25px;
+}
+.alink{
+	font-size: 20px;
+}
+.alignBottom{
+   position:absolute;
+	
+   bottom:0;
+	
+   left:0;
+}

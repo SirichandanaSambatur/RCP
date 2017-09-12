@@ -1,0 +1,223 @@
+<!---------------------------------------------------------------------
+ File Name- DBHelper.h
+PublishedTue Apr  4 23:49:50 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - DBHelper.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Executive.cpp.html'>Executive.cpp</a></li><li><a href='NoSqlDb.h.html'>NoSqlDb.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+
+/////////////////////////////////////////////////////////////////////
+//DBHelpher.h - Helper of the NoSql database                       //
+// ver 1.0                                                         //
+// Apllication: support for NoSqlDb, Spring 2017                   //
+// Platform: Macbook Pro, Win 10, Visual Studio 2015               //
+// Source:      Jim Fawcett, CST 4-187, 443-3948                   //
+//              jfawcett@twcny.rr.com                              //
+//Author: Siri Chandana S, ssambatu@syr.edu                        //
+/////////////////////////////////////////////////////////////////////
+/*
+* Package Operations:
+* -------------------
+* This is used to assist the user in performing various operations
+* on the database like insertion, deletion, modification etc.
+*
+* It also wraps the contetns of the NoSqlDb and Elemnt class together
+* so that they are not directly accesible to users. It basically provides the feature of encapsulation
+*
+* Required Files:
+* ---------------
+*   - NoSqlDb.h, NoSqlDb.cpp,
+*   - DBHelper.h
+*
+* Build Process:
+* --------------
+* devenv CodeAnalyzer.sln /rebuild debug
+*
+* Maintenance History:
+* --------------------
+* Ver 1.0 : 7 Feb 2017
+* - first release
+*
+*/
+#include "NoSqlDb.h"
+
+/////////////////////////////////////////////////////////////////////
+// DBHelper class helps in performing basic operations on the DB
+// - this class wraps both the contents of the element and nosqldb
+// - it performs insertion,deletion,modifcation,addchildren 
+//    and delete children on the database
+//
+template &lt;typename Data&gt;
+class DBHelper <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+public:
+	using key = std::string;
+	using Name = std::string;
+	using Category = std::string;
+	using TimeDate = std::string;
+	using Description = std::string;
+	using dataValue = Data;
+
+
+	std::string msg;
+	NoSqlDb&lt;Data&gt; dbptr;
+	Element&lt;Data&gt; element;
+
+
+public:
+	DBHelper() <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+
+	}</div>
+	DBHelper(NoSqlDb&lt;Data&gt; dbptr) <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		this-&gt;dbptr = dbptr;
+	}</div>
+	std::string insertion(Name name, Category category, Description des, TimeDate timeDate, dataValue data);
+	std::string deletion(Name name);
+	std::string modifyInstance(key oldValue, Name name, Category category, Description des, TimeDate timeDate, dataValue data);
+	std::string modify(key K, std::string Attribute, std::string newValue);
+	std::string addChild(key parent, key child);
+	std::string removeChild(key parent, key child);
+	std::vector&lt;std::string&gt; getAllKeys();
+	std::vector&lt;std::string&gt; getChildren(key val);
+	void setFeature(bool time);
+	NoSqlDb&lt;Data&gt; getDB();
+	void display();
+	int sizeofDB();
+}59</div>
+
+// insert a key/value pair into the database
+template&lt;typename Data&gt;
+std::string DBHelper&lt;Data&gt;::insertion(Name name, Category category, Description des, TimeDate timeDate, dataValue data)
+<button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+	element.name = name;
+	element.category = category;
+	element.timeDate = timeDate;
+	element.data = data;
+	element.description = des;
+	if (!(dbptr.save(element.name, element)))
+		msg = "\n . . .Unsucessful insertion, Key exists. . .";
+	else
+		msg = "\n . . .Successful insertion. . .";
+	return msg;
+}</div>
+
+//delete key/value pair from the database
+template&lt;typename Data&gt;
+std::string  DBHelper&lt;Data&gt;::deletion(Name name)
+<button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+	element.name = name;
+	if (!(dbptr.remove(element.name)))
+		msg = "\n . . .Unsucessful deletion, Key doesn't exists. . .";
+	else
+		msg = "\n . . .Successful deletion. . .";
+	return msg;
+}</div>
+
+//modifying an instance of the databse
+template&lt;typename Data&gt;
+std::string DBHelper&lt;Data&gt;::modifyInstance(key oldValue, Name name, Category category, Description des, TimeDate timeDate, dataValue data)
+<button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+	element.name = name;
+	element.category = category;
+	element.timeDate = timeDate;
+	element.data = data;
+	if (!(dbptr.modify(oldValue, element)))
+		msg = "\n . . .Unsucessful modification, Key doesn't exists. . .";
+	else
+		msg = "\n . . .Successful modification. . .";
+	return msg;
+}</div>
+
+//modifying an atrribute of the database
+template&lt;typename Data&gt;
+std::string DBHelper&lt;Data&gt;::modify(key K, std::string Attribute, std::string newValue)
+<button id="collapseInfo" onclick ="myFunction('collapsible7')">show</button><div id = "collapsible7">{
+	element = dbptr.value(K);
+
+	if (Attribute == "name")
+		element.name = newValue;
+	else if (Attribute == "category")
+		element.category = newValue;
+	else if (Attribute == "description")
+		element.description = newValue;
+	dbptr.modify(K, element);
+	return std::string();
+}</div>
+
+//adding child relation
+template&lt;typename Data&gt;
+std::string DBHelper&lt;Data&gt;::addChild(key parent, key child)
+<button id="collapseInfo" onclick ="myFunction('collapsible8')">show</button><div id = "collapsible8">{
+	bool v = dbptr.addRelation(parent, child);
+	if (v == true)
+		msg = " \n . . . Succesfullly added child to parent relation . . .";
+	else
+		msg = " \n . . . Couldn't add child to parent relation . . .";
+	return msg;
+}</div>
+
+//removing child relation
+template&lt;typename Data&gt;
+inline std::string DBHelper&lt;Data&gt;::removeChild(key parent, key child)
+<button id="collapseInfo" onclick ="myFunction('collapsible9')">show</button><div id = "collapsible9">{
+	dbptr.removeRelation(parent, child);
+	if (v == true)
+		msg = " \n . . . Succesfullly removed child to parent relation . . .";
+	else
+		msg = " \n . . . Couldn't remove child to parent relation . . .";
+	return msg;
+}</div>
+
+//all the  keys present in the database returned
+template&lt;typename Data&gt;
+std::vector&lt;std::string&gt; DBHelper&lt;Data&gt;::getAllKeys()
+<button id="collapseInfo" onclick ="myFunction('collapsible10')">show</button><div id = "collapsible10">{
+	std::vector&lt;key&gt; temp;
+	temp = dbptr.keys();
+	return temp;
+}</div>
+
+template&lt;typename Data&gt;
+ std::vector&lt;std::string&gt; DBHelper&lt;Data&gt;::getChildren(key val)
+<button id="collapseInfo" onclick ="myFunction('collapsible11')">show</button><div id = "collapsible11">{
+	 std::vector&lt;std::string&gt; temp;
+	 temp = dbptr.getChild(val);
+	return temp;
+}</div>
+
+template&lt;typename Data&gt;
+ void DBHelper&lt;Data&gt;::setFeature(bool time)
+<button id="collapseInfo" onclick ="myFunction('collapsible12')">show</button><div id = "collapsible12">{
+	dbptr.setFeature(time);
+}</div>
+
+//dbpointer can be accessed
+template&lt;typename Data&gt;
+NoSqlDb&lt;Data&gt; DBHelper&lt;Data&gt;::getDB()
+<button id="collapseInfo" onclick ="myFunction('collapsible13')">show</button><div id = "collapsible13">{
+	return dbptr;
+}</div>
+
+//show the entries in the database
+template&lt;typename Data&gt;
+void DBHelper&lt;Data&gt;::display()
+<button id="collapseInfo" onclick ="myFunction('collapsible14')">show</button><div id = "collapsible14">{
+	NoSqlDb&lt;Data&gt;::Keys ikeys = dbptr.keys();
+	for (NoSqlDb&lt;Data&gt;::Key key : ikeys)
+	<button id="collapseInfo" onclick ="myFunction('collapsible15')">show</button><div id = "collapsible15">{
+		std::cout &lt;&lt; "\n  " &lt;&lt; key &lt;&lt; ":";
+		std::cout &lt;&lt; dbptr.value(key).show();
+	}</div>
+	std::cout &lt;&lt; "\n key/value pairs retrieved = " &lt;&lt; dbptr.count() &lt;&lt; "\n";
+	std::cout &lt;&lt; "\n\n";
+}</div>
+
+//the size of the db
+template&lt;typename Data&gt;
+int DBHelper&lt;Data&gt;::sizeofDB()
+<button id="collapseInfo" onclick ="myFunction('collapsible16')">show</button><div id = "collapsible16">{
+	return dbptr.count();
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

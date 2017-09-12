@@ -1,0 +1,99 @@
+<!---------------------------------------------------------------------
+ File Name- Publisher.h
+PublishedTue Apr  4 23:49:51 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - Publisher.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='PublishPage.h.html'>PublishPage.h</a></li><li><a href='ConvertType.h.html'>ConvertType.h</a></li><li><a href='DBHelper.h.html'>DBHelper.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+/////////////////////////////////////////////////////////////////////////////////////////
+// Publisher.h - Publish the given list of files as HTML files on the browser          //
+//  ver 1.0                                                                            //
+//  Language:      Visual C++ 2015                                                     //
+//  Platform:      Macbook Pro, Windows 10                                             //
+//  Application:   Used to publish various types of files in the package               //
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                            //
+/////////////////////////////////////////////////////////////////////////////////////////
+/*
+Package Operations:
+==================
+This package is used to publish all the files and insert links where they are necessary.
+It uses the PublishPage package to make the files a list of Html files. So, these Html files
+can finally be linked together as one and form a single website.
+
+
+Public Interface:
+=================
+
+
+Build Process:
+==============
+Required files
+
+
+Build commands
+devenv CodeAnalyzer.sln /rebuild debug
+
+Maintenance History:
+====================
+ver 1.0 : 02 Apr 2017
+- first release
+
+*/
+#include&lt;iostream&gt;
+#include&lt;unordered_map&gt;
+#include&lt;vector&gt;
+#include "../PublishPage/PublishPage.h"
+#include "../ConvertType/ConvertType.h"
+#include "../NoSqlDb/DBHelper.h"
+
+using namespace std;
+
+namespace CodePublisher <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+
+	class Publisher <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	public:
+		void publishPackage(std::vector&lt;std::string&gt; files, DBHelper&lt;std::string&gt; sDB);
+		void openBrowser();
+	private:
+		PublishHtmlPage p;
+		std::string currentPath;
+		std::string currentFile;
+		void SplitFilename(const std::string& str);
+
+
+	}59</div>
+	void Publisher::openBrowser() <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		std::string htmlFilePath = "..\\Analyzer\\HtmlFiles\\mainPage.html";
+		std::cout &lt;&lt; htmlFilePath;
+		ShellExecuteA(GetDesktopWindow(), ("open"), LPCSTR(htmlFilePath.c_str()), NULL, NULL, SW_SHOWNORMAL);
+	}</div>
+	void Publisher::SplitFilename(const std::string& str)
+	<button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+		std::size_t found = str.find_last_of("/\\");
+		currentPath = str.substr(0, found);
+		currentFile = str.substr(found + 1);
+	}</div>
+	void Publisher::publishPackage(std::vector&lt;std::string&gt; files, DBHelper&lt;std::string&gt; sDB) <button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+		using Item = std::pair&lt;string, vector&lt;string&gt;&gt;;
+		Convert c;
+		std::cout &lt;&lt; "Requirement 5- Display contents of the CSS files ------\n";
+		p.showCSSFiles();
+		std::cout &lt;&lt; "--------------------Creating the main page----------------------\n\n";
+		p.createMainPage(files);
+		std::cout &lt;&lt; "\n------------------------------------------------------------------\n";
+		std::cout &lt;&lt; "Requirement 6- Adding external links in the head section----------------\n";
+		p.addCSS();
+		p.addJS();
+		for (int i = 0; i &lt; files.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+			std::string temp = c.convertContent(files[i]);
+			SplitFilename(files[i]);
+			std::cout &lt;&lt; "----------- Publishing the file " &lt;&lt; currentFile &lt;&lt; "------------------------\n";
+			p.createHtmlPage(currentFile, temp, sDB.getChildren(currentFile));
+		}</div>
+		
+	}</div>
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>

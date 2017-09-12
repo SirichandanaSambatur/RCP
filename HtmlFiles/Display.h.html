@@ -1,0 +1,167 @@
+<!---------------------------------------------------------------------
+ File Name- Display.h
+PublishedTue Apr  4 23:49:50 2017
+
+Author- Siri Chandana Sambatur, ssambatu@syr.edu
+ ----------------------------------->
+ <!DOCTYPE html><br><html><head><link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<link rel='stylesheet' type='text/css' href='HideInformation.css'>
+<link rel='stylesheet' type='text/css' href='HTMLDesign.css'>
+<script src='jquery-3.2.0.js'></script><script src='HideInformation.js'></script></head><body><div class='header'>Code Publisher - Display.h</div><div class='mainContent'><div class='dependancies'>List Of Dependancies-<br></div><ol class='alink' type='1'><li><a href='Publisher.h.html'>Publisher.h</a></li><li><a href='DBHelper.h.html'>DBHelper.h</a></li></ol><div id='code'><br>Code present in the file is given below-<br></div><pre>#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+////////////////////////////////////////////////////////////////////////////////////////////
+// Display.h - Helper class that is use to show the analysis that is being performed      //
+//  ver 1.0                                                                               //
+//  Language:      Visual C++ 2015                                                        //
+//  Platform:      Macbook Pro, Windows 10                                                //
+//  Application:   Used to support analysis of the files                                  //
+//  Author:        Siri Chandana Sambatur, ssambatu@syr.edu                               //
+////////////////////////////////////////////////////////////////////////////////////////////
+/*
+Package Operations:
+==================
+This package is used to display the various analysis that has been performed on the file
+collection that is given to us. 
+
+Public Interface:
+=================
+typeAnalysis()      //perform type Analysis
+depAnalysis()       //perform dependancy analysis
+depDatabase()       //insert dependancy analysis into the databaase
+strongComponents()  // finding the strongly connected components
+XMLformat()         //store the analysis as an XML file
+
+Build Process:
+==============
+Required files -
+TypeAnal.h, DepAnal.h, DBHelper.h, Component.h, Persistance.h
+
+Build commands 
+devenv CodeAnalyzer.sln /rebuild debug
+
+Maintenance History:
+====================
+ver 1.0 : 05 Mar 2017
+- first release
+
+*/
+#include "../TypeAnalysis/TypeAnal.h"
+#include "../DepandancyAnalysis/DepAnal.h"
+#include "../NoSqlDb/DBHelper.h"
+#include "../Publisher/Publisher.h"
+#include&lt;chrono&gt;
+#include&lt;ctime&gt; 
+#include&lt;unordered_map&gt;
+
+namespace CodeAnalysis <button id="collapseInfo" onclick ="myFunction('collapsible1')">show</button><div id = "collapsible1">{
+	/////////////////////////////////////////////////////////////////////////////
+	// Display class helps in performing augmentation of database
+	// - this class performs all the various analysis to be performed 
+	//    on the file collection that is provided
+	// - it uses the NoSql Data base to store the analysis that it has performed
+	//
+
+	using namespace CodePublisher;
+	class Display <button id="collapseInfo" onclick ="myFunction('collapsible2')">show</button><div id = "collapsible2">{
+	private:
+		TypeAnal ta;
+		DepAnal dp;
+		Publisher p;
+		DBHelper&lt;std::string&gt; sDB;
+		DBHelper&lt;std::string&gt; connect;
+		unordered_map&lt;std::string, int&gt; mapping;//data structure to store mapping the files to index
+		using item = std::pair&lt;std::string, int&gt;;
+		bool checkInMap(std::string s);
+		void insertMap(std::string s);
+		void createMap();
+		std::string msg;
+		std::string getTimeDate();
+
+	public: 
+		void typeAnalysis();
+		void depAnalysis();
+		void depDatabase();
+		void publishFiles();
+	}59</div>
+
+	//checking if a file is already mapped
+ bool  Display::checkInMap(std::string s) <button id="collapseInfo" onclick ="myFunction('collapsible3')">show</button><div id = "collapsible3">{
+		for (item i : mapping) <button id="collapseInfo" onclick ="myFunction('collapsible4')">show</button><div id = "collapsible4">{
+			if (i.first == s) <button id="collapseInfo" onclick ="myFunction('collapsible5')">show</button><div id = "collapsible5">{
+				return true;
+			}</div>
+		}</div>
+		return false;
+	}</div>
+	//extract the current time and date function
+std::string Display::getTimeDate() <button id="collapseInfo" onclick ="myFunction('collapsible6')">show</button><div id = "collapsible6">{
+		std::string time="";
+		std::chrono::time_point&lt;std::chrono::system_clock&gt; current_time;
+		current_time = std::chrono::system_clock::now();
+		std::time_t current = std::chrono::system_clock::to_time_t(current_time);
+		time = std::ctime(&current);
+		return time;
+	}</div>
+	//inserting file into the map
+ void Display::insertMap(std::string s) <button id="collapseInfo" onclick ="myFunction('collapsible7')">show</button><div id = "collapsible7">{
+		static int count = 0;
+		if (!checkInMap(s)) <button id="collapseInfo" onclick ="myFunction('collapsible8')">show</button><div id = "collapsible8">{
+			mapping[s] = count;
+			count++;
+		}</div>
+
+	}</div>
+	//performing type analysis
+ void  Display::typeAnalysis() <button id="collapseInfo" onclick ="myFunction('collapsible9')">show</button><div id = "collapsible9">{
+		ta.doTypeAnal();
+		//ta.displayTypeTable();
+	}</div>
+
+	//perform depandancy analysis
+void Display::depAnalysis() <button id="collapseInfo" onclick ="myFunction('collapsible10')">show</button><div id = "collapsible10">{
+		dp.checkDependancies(ta);
+		dp.checkDependentFiles(ta);
+		//dp.showDependancy();
+	}</div>
+
+	//inserting depandancy into the database
+ void Display::depDatabase() <button id="collapseInfo" onclick ="myFunction('collapsible11')">show</button><div id = "collapsible11">{
+		unordered_map&lt;string, vector&lt;string&gt;&gt; fileDependancies = dp.getDependancy();
+		using Item = std::pair&lt;string, vector&lt;string&gt;&gt;;
+		for (Item it : fileDependancies)
+		<button id="collapseInfo" onclick ="myFunction('collapsible12')">show</button><div id = "collapsible12">{
+			msg=sDB.insertion(it.first,"file","this is parent file",getTimeDate(),"Dependancy Analysis in Data Base");
+			vector&lt;string&gt; temp = it.second;
+			for (int i = 0; i &lt; temp.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible13')">show</button><div id = "collapsible13">{
+				msg = sDB.insertion(temp[i], "file", "this is a file", getTimeDate(), "Dependendancy Analysis in Data Base");
+				msg= sDB.addChild(it.first, temp[i]);
+			}</div>
+		}</div>
+		//sDB.display();
+	}</div>
+
+	//create a map of files with unique id(int) for graph
+void Display::createMap() <button id="collapseInfo" onclick ="myFunction('collapsible14')">show</button><div id = "collapsible14">{
+		unordered_map&lt;string, vector&lt;string&gt;&gt; fileDependancies = dp.getDependancy();
+		using Item = std::pair&lt;string, vector&lt;string&gt;&gt;;
+		for (Item it : fileDependancies)
+		<button id="collapseInfo" onclick ="myFunction('collapsible15')">show</button><div id = "collapsible15">{
+			insertMap(it.first);
+			vector&lt;string&gt; temp = it.second;
+			for (int i = 0; i &lt; temp.size(); i++) <button id="collapseInfo" onclick ="myFunction('collapsible16')">show</button><div id = "collapsible16">{
+				insertMap(temp[i]);
+			}</div>
+		}</div>
+	}</div>
+
+
+
+	//publishing the html files
+	void Display::publishFiles() <button id="collapseInfo" onclick ="myFunction('collapsible17')">show</button><div id = "collapsible17">{
+		std::cout &lt;&lt; "\n-------------Publisher to publish the files in the package------------\n\n";
+		vector&lt;std::string&gt; files = ta.getFiles();
+		p.publishPackage(files,sDB);
+		p.openBrowser();
+	}</div>
+}</div></pre></div><div class='footer'><a class='acolor'href='mainPage.html'>Return to main page</a><div class='alignRight'>&copy;&nbsp;Copyright 2017. All rights reserved</div></div></body>
